@@ -34,24 +34,102 @@ const printBoard = () => {
 
 const horizontalWin = () => {
   // Your code here to check for horizontal wins
+  //check each row for win
+  for(let x = 0; x <= 2; x++){
+    let unitPlaced = 0;
+    for(let i = 0; i <= 2; i++){
+      if(playerTurn == board[x][i]){
+        unitPlaced++;
+      }
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
+  
+
 }
 
 const verticalWin = () => {
   // Your code here to check for vertical wins
+  //using loop to check  each colum for win
+  for(let x = 0; x <= 2; x++){
+    let unitPlaced = 0;
+    for(let i = 0; i <= 2; i++){
+      if(playerTurn == board[i][x]){
+        unitPlaced++;
+      }
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
 }
 
 const diagonalWin = () => {
   // Your code here to check for diagonal wins
+  //check going down diagonal for win with loop
+  console.log("starting diagonal test loop!");
+  let unitPlaced = 0;
+  for(let i = 0; i <= 2; i++){
+    //console.log("First Loop Diagonal going down unites placed = " + unitPlaced);
+    if(playerTurn == board[i][i]){
+      unitPlaced++;
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+
+  //check going up diagonal for win with loop
+  let reverseUnitPlaced = 0;
+  let reverseUnit = 0;
+  for(let x = 2; x >= 0; x--){
+    //console.log("Second loop Diagonal going UP reverseUnit = " + reverseUnit);
+    if(playerTurn == board[x][reverseUnit]){
+      reverseUnitPlaced++;
+      reverseUnit++;
+    }
+    if (reverseUnitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
 }
 
 const checkForWin = () => {
   // Your code here call each of the check for types of wins
+  if(horizontalWin() == true || verticalWin() == true || diagonalWin() == true){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 const ticTacToe = (row, column) => {
   // Your code here to place a marker on the board
+  board[row][column] = playerTurn;
+
   // then check for a win
+  if(checkForWin()){
+    console.log(`Player ${playerTurn} Won!`);
+   
+  }
+
+  //flip player
+  if(playerTurn == "X"){
+    playerTurn = "O";
+  }else {
+    playerTurn = "X";
+  }
+
+
 }
+
+
+
 
 const getPrompt = () => {
   printBoard();

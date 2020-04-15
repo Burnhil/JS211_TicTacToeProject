@@ -38,6 +38,9 @@ const addMarker = (id) => {
   
   // Arrange the above pieces into one a single line of code
   // to add an X or O to the board to the DOM so it can be scene on the screen.
+
+  document.getElementById(id).innerHTML = currentMarker;
+
 }
 
 // passes the element's id attribute from HTML to be used
@@ -51,6 +54,8 @@ const updateBoard = (id) => {
 
   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
   // HINT: in your browser open up the dev tools -> console
+
+  board[row][column] = currentMarker;
 }
 
 const checkForWin = () => {
@@ -58,6 +63,9 @@ const checkForWin = () => {
   if(horizontalWin() || verticalWin() || diagonalWin()) {
     // **BONUS** you could make the dismissal of this alert window reset the board...
     window.alert(`Player ${currentMarker} won!`)
+    resetBoard();
+    changeMarker();
+    document.getElementById("currentPlayer").innerHTML = `New game player ${currentMarker} goes first!`;
   } else {
     // if no win, change the marker from X to O, or O to X for the next player.
     changeMarker()
@@ -66,19 +74,74 @@ const checkForWin = () => {
 
 const horizontalWin = () => {
   // @TODO, Your code here: to check for horizontal wins
+
+  for(let x = 0; x <= 2; x++){
+    let unitPlaced = 0;
+    for(let i = 0; i <= 2; i++){
+      //console.log("checking current horisontalwin unitplaced = " + unitPlaced );
+      //console.log("currentmaker = " + currentMarker);
+      if(currentMarker == board[x][i]){
+        unitPlaced++;  
+      }
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
+  
 }
 
 const verticalWin = () => {
   // @TODO, Your code here: to check for vertical wins
+  for(let x = 0; x <= 2; x++){
+    let unitPlaced = 0;
+    for(let i = 0; i <= 2; i++){
+      if(currentMarker == board[i][x]){
+        unitPlaced++;
+      }
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
 }
 
 const diagonalWin = () => {
   // @TODO, Your code here: to check for diagonal wins
+  //console.log("starting diagonal test loop!");
+  let unitPlaced = 0;
+  for(let i = 0; i <= 2; i++){
+    //console.log("First Loop Diagonal going down unites placed = " + unitPlaced);
+    if(currentMarker == board[i][i]){
+      unitPlaced++;
+    }
+    if (unitPlaced == 3){
+      return true;
+    }
+  }
+
+  //check going up diagonal for win with loop
+  let reverseUnitPlaced = 0;
+  let reverseUnit = 0;
+  for(let x = 2; x >= 0; x--){
+    //console.log("Second loop Diagonal going UP reverseUnit = " + reverseUnit);
+    if(currentMarker == board[x][reverseUnit]){
+      reverseUnitPlaced++;
+      reverseUnit++;
+    }
+    if (reverseUnitPlaced == 3){
+      return true;
+    }
+  }
+  return false;
 }
 
 const changeMarker = () => {
   // ternary operator: if it's an X make it an O, if O make it an X
   currentMarker = currentMarker === "X" ? "O" : "X"
+  document.getElementById("currentPlayer").innerHTML = `Its player ${currentMarker} turn!`;
 }
 
 const resetBoard = () => {
@@ -95,6 +158,13 @@ const resetBoard = () => {
   }
   
   // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
+  board = [
+    ['','',''],
+    ['','',''],
+    ['','','']
+  ];
+
+  
 }
 
 // **BONUSES**
